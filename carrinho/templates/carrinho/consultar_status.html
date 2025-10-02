@@ -1,0 +1,29 @@
+{% extends "mercearia/base.html" %}
+
+{% block title %}Consultar Status do Pedido{% endblock %}
+
+{% block content %}
+<h2>Consultar Status do Pedido</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="pedido_id">Digite o ID do seu pedido:</label>
+    <input type="number" name="pedido_id" id="pedido_id" required>
+    <button type="submit">Consultar</button>
+</form>
+
+{% if pedido_id %}
+    <h3>Pedido #{{ pedido_id }}</h3>
+    {% if pedido %}
+        <p>Status atual: <strong>{{ status }}</strong></p>
+        <ul>
+            {% for item in pedido.itens.all %}
+                <li>{{ item.produto.nome }} ({{ item.quantidade }}x) - R$ {{ item.subtotal }}</li>
+            {% endfor %}
+        </ul>
+        <p>Total: R$ {{ pedido.total }}</p>
+    {% else %}
+        <p>{{ status }}</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

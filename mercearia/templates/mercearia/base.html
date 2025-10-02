@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mercearia{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Manoel da Sacola</h1>
+        <nav>
+            <a href="{% url 'lista_produtos' %}">Produtos</a> |
+            <a href="/carrinho/checkout/">Carrinho</a>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <p>&copy; 2025 - Mercearia</p>
+    </footer>
+</body>
+</html>

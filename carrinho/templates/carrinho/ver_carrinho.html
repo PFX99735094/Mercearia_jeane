@@ -1,0 +1,38 @@
+{% extends "mercearia/base.html" %}
+{% block title %}Meu Carrinho{% endblock %}
+{% block content %}
+<h2>Meu Carrinho</h2>
+
+{% if itens %}
+<table>
+<tr><th>Produto</th><th>Qtd</th><th>Subtotal</th><th>Ações</th></tr>
+{% for item in itens %}
+<tr>
+  <td>{{ item.produto.nome }}</td>
+  <td>{{ item.quantidade }}</td>
+  <td>R$ {{ item.subtotal }}</td>
+  <td>
+    <a href="{% url 'atualizar_carrinho' item.produto.id item.quantidade|add:'1' %}">+</a>
+    <a href="{% url 'atualizar_carrinho' item.produto.id item.quantidade|add:'-1' %}">-</a>
+  </td>
+</tr>
+{% endfor %}
+</table>
+
+<h3>Total: R$ {{ total }}</h3>
+
+<form method="post" action="{% url 'checkout' %}">
+    {% csrf_token %}
+    <label>Nome:</label>
+    <input type="text" name="cliente_nome" required>
+    <label>Telefone (WhatsApp):</label>
+    <input type="text" name="cliente_telefone" required>
+    <label>Endereço (opcional):</label>
+    <input type="text" name="cliente_endereco">
+    <button type="submit">Finalizar Compra via WhatsApp</button>
+</form>
+
+{% else %}
+<p>Seu carrinho está vazio.</p>
+{% endif %}
+{% endblock %}

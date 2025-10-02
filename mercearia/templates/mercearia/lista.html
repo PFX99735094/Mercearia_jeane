@@ -1,0 +1,35 @@
+{% extends "mercearia/base.html" %}
+
+{% block title %}Lista de Produtos{% endblock %}
+
+{% block content %}
+<script>
+    function alterarCarrinho(id, delta) {
+        let qtdElem = document.getElementById("qtd-" + id);
+        let qtd = parseInt(qtdElem.innerText) + delta;
+        if (qtd < 0) qtd = 0;
+        qtdElem.innerText = qtd;
+        fetch("/carrinho/atualizar/" + id + "/" + qtd + "/");
+    }
+</script>
+
+<h2>Produtos disponíveis</h2>
+
+<div class="produtos-linha">
+{% for produto in produtos %}
+  <div class="produto-item">
+    {% if produto.imagem %}
+        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+    {% endif %}
+    <h3>{{ produto.nome }} ({{ produto.marca }})</h3>
+    <p class="preco">Preço: R$ {{ produto.preco }}</p>
+
+    <button onclick="alterarCarrinho('{{ produto.id }}', -1)">-</button>
+    <span id="qtd-{{ produto.id }}">  0  </span>
+    <button onclick="alterarCarrinho('{{ produto.id }}', 1)">+</button>
+  </div>
+{% empty %}
+  <p>Nenhum produto cadastrado.</p>
+{% endfor %}
+</div>
+{% endblock %}

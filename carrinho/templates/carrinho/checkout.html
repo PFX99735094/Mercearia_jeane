@@ -1,0 +1,39 @@
+{% extends "mercearia/base.html" %}
+{% load static %}
+
+{% block title %}Resumo do Pedido{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+    <h2>Resumo do Pedido</h2>
+
+    <table class="tabela-pedido">
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Subtotal</th>
+        </tr>
+        {% for item in itens %}
+        <tr>
+            <td>{{ item.produto.nome }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>R$ {{ item.subtotal }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3 class="total">Total: R$ {{ total }}</h3>
+
+    <div class="dados-cliente">
+        <p><strong>Cliente:</strong> {{ cliente_nome }}</p>
+        <p><strong>Telefone:</strong> {{ cliente_telefone }}</p>
+        {% if cliente_endereco %}
+        <p><strong>Endereço:</strong> {{ cliente_endereco }}</p>
+        {% endif %}
+    </div>
+
+    <div class="botao-whatsapp">
+        <a href="{{ url_whatsapp }}" target="_blank">📲 Enviar Pedido no WhatsApp</a>
+    </div>
+</div>
+{% endblock %}
